@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <title>Teleprompter</title>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div class="w3-container w3-blue w3-top">
+      <h4>Teleprompter</h4>
+    </div>
+    <!-- MAIN -->
+    <div class="w3-container" id="main">
+      <br/><br/><br/><br/>
+      <div class="w3-row">
+        <div class="w3-half w3-container w3-content">
+          <video id="video-camera" width="320" height="240" class="w3-block" autoplay>
+            <img src="https://i.ytimg.com/vi/BjeP6Vdxr7Q/maxresdefault.jpg" />
+          </video>
+          <br/>
+          <div class="w3-bar w3-black w3-block">
+            <a href="#" class="w3-bar-item w3-button w3-small" id="start-camera" title="Start camera"><i class="fa fa-camera" aria-hidden="true"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-small" id="start-recording" title="Start recording" disabled><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-small" id="stop-recording" title="Stop recording" disabled><i class="fa fa-stop" aria-hidden="true"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-small" id="download-video" title="Download video" download="test.webm" disabled><i class="fa fa-download" aria-hidden="true"></i></a>
+          </div>
+          <label for="download-filename">Download Filename</label>
+          <input type="text" class="w3-input w3-block" id="download-filename" value="test.webm" placeholder="Assign a new filename for the downloadable video?" />
+        </div>
+        <div class="w3-half w3-container">
+          <div class="w3-bar w3-black w3-block">
+            <input type="file" id="files" name="files[]" style="display:none;" />
+            <a href="#" class="w3-bar-item w3-button" id="load-script" title="Load script"><i class="fa fa-upload" aria-hidden="true"></i></a>
+            <a href="#" class="w3-bar-item w3-button" id="play-script" title="Begin scroling script" disabled><i class="fa fa-play" aria-hidden="true"></i></a>
+          </div>
+          <marquee id="speaker-text" class="w3-content w3-block w3-border" behavior="scroll" direction="up" height="250" scrollamount="2" scrolldelay="10""></marquee>
+          <label for="marquee-scroll-delay">Scroll Delay</label>
+          <input type="number" id="marquee-scroll-delay" value="" placeholder="Value is milliseconds? (1000ms = 1s). Press Script Play button to set change?" class="w3-input w3-block" />
+        </div>
+      </div> 
+      <div class="w3-row">
+        <div class="w3-container w3-content">
+          <p>Video is NOT saved on the server and rendered in your browser. The download link is a memory stream to download conversion.</p>
+          <p>Check out <a href="https://myvirtualbackdrop.com/" target="_blank">myvirtualbackdrop.com</a> to add a green screen and custom background to your video?</p>
+        </div>
+      </div>     
+      <br/><br/><br/><br/>
+    </div>
+    <!-- FOOTER -->
+    <div class="w3-container w3-card w3-blue w3-bottom">
+      <p class="w3-center">
+        &copy; 2020 <a href="https://presspage.info" target="_blank" style="text-decoration: none;">PressPage Entertainment Inc</a> DBA <a href="https://pingleware.work" target="_blank" style="text-decoration: none;">PINGLEWARE</a>
+        &nbsp;All rights reserved.
+        &nbsp;<span class="w3-tiny" id="version"></span>
+      </p>
+    </div>
+    <!-- SUCCESS DIALOG -->
+    <div id="success-dialog" class="w3-modal">
+      <div class="w3-modal-content">
+        <div class="w3-container">
+          <h2 class="w3-green" id="success-dialog-title">Success</h2>
+          <p id="success-dialog-message"></p>
+          <br />
+          <button class="w3-button w3-block w3-black" id="success-dialog-ok">OK</button>
+          <br />
+        </div>
+      </div>
+    </div>
+    <!-- ERROR DIALOG -->
+    <div id="error-dialog" class="w3-modal">
+      <div class="w3-modal-content">
+        <div class="w3-container">
+          <h2 class="w3-red" id="error-dialog-title">Error</h2>
+          <p id="error-dialog-message"></p>
+          <br />
+          <button class="w3-button w3-block w3-black" id="error-dialog-ok">OK</button>
+          <br />
+        </div>
+      </div>
+    </div>
+    <!-- CONFIRM DIALOG -->
+    <div id="confirm-dialog" class="w3-modal">
+      <div class="w3-modal-content">
+        <div class="w3-container">
+          <h2 class="w3-red" id="confirm-dialog-title">Error</h2>
+          <p id="confirm-dialog-message"></p>
+          <br />
+          <button class="w3-button w3-block w3-light-grey" id="confirm-dialog-yes">Yes</button>
+          <br />
+          <button class="w3-button w3-block w3-light-grey" id="confirm-dialog-no">No</button>
+          <br />
+        </div>
+      </div>
+    </div>
+    <!-- JavaScript References-->
+    <script type="text/javascript" src="js/index.js?ver=1"></script>
+    <script type="text/javascript">
+      let camera_stream = null;
+      let media_recorder = null;
+      let blobs_recorded = [];
+
+      let download_link = document.querySelector("#download-video");
+
+      window.onload = function(e) {
+        localStorage.setItem('version','1.0.0');
+        id('version').innerHTML = 'Version ' + localStorage.getItem('version');
+      }
+      function scrollDivUp(element_id){
+        id(element_id).scrollTop-=1;
+        timerUp=setTimeout("scrollDivUp('"+ element_id +"')",10);
+      }
+
+      listener('start-camera','click', function(e){
+        id('download-video').setAttribute('download',id('download-filename').value);
+
+        if (typeof navigator.mediaDevices !== "undefined") {
+          camera_stream = window.navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+          .then(mediaStream => {
+            document.querySelector('video').srcObject = mediaStream;
+
+            const track = mediaStream.getVideoTracks()[0];
+            imageCapture = new ImageCapture(track);
+
+            return imageCapture.getPhotoCapabilities();
+          });
+          id('start-recording').removeAttribute('disabled');
+        } else {
+          alert("navigator.mediaDevices is UNDEFINED!");
+        }
+      });
+      listener('start-recording','click', function(e){
+        id('start-recording').setAttribute('disabled','disabled');
+        console.log(camera_stream);
+        // set MIME type of recording as video/webm
+        var canvas = document.querySelector("video");
+        var stream = canvas.captureStream(25);
+        var options = { mimeType: "video/webm; codecs=vp9" };
+        media_recorder = new MediaRecorder(stream, options);
+
+
+        
+        // event : new recorded video blob available 
+        media_recorder.addEventListener('dataavailable', function(e) {
+          blobs_recorded.push(e.data);
+        });
+
+        // event : recording stopped & all blobs sent
+        media_recorder.addEventListener('stop', function() {
+          // create local object URL from the recorded video blobs
+          let video_local = window.URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
+          download_link.href = video_local;
+        });
+        
+
+        // start recording with each recorded blob having 1 second video
+        media_recorder.start();
+        console.log(media_recorder.state);
+        console.log("recorder started");
+        id('stop-recording').removeAttribute('disabled');
+      });
+      listener('stop-recording','click', function(e){
+        id('stop-recording').setAttribute('disabled','disabled');
+        media_recorder.stop(); 
+        id('start-recording').removeAttribute('disabled');
+        id('download-video').removeAttribute('disabled');
+      });
+      listener('load-script','click', function(e){
+        var filesElem = document.getElementById('files');
+        filesElem.addEventListener('change', handleFileSelecting, false);
+        filesElem.click();
+      });
+      listener('play-script','click', function(e){
+        id('speaker-text').setAttribute('scrolldelay',id('marquee-scroll-delay').value)
+      });
+      function handleFileSelecting(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function(theFile) {
+                return function(e) {
+
+                    var content = e.target.result;
+                    if (content) {
+                        // Inserting content into textarea, change id if you need
+                        var textarea = document.getElementById('speaker-text');
+                        textarea.innerText = content;
+
+                    }
+                };
+            })(f);
+
+            reader.readAsText(f);
+        }        
+      }
+      
+    </script>
+  </body>
+</html>
