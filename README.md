@@ -15,5 +15,8 @@ Place the files in a www directory, then access from a browser.
 
 Try https://presspage.info/telepromter
 
+## SSL Mandatory
+The mediaDevices are disabled for a non-SSL session. A self-signed certificate will enable the mediaDevices in a SSL-enabled website.
+
 # Screenshot
 ![Screenshot on tablet](https://github.com/pingleware/teleprompter/blob/main/screenshot-tablet.png?raw=true "Teleprompter")
