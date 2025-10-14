@@ -1,0 +1,16 @@
+Lecture Title
+Course Name
+PHA1234
+Lecturer Name
+
+Slide 1
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis non dignissim ex. Maecenas vestibulum elementum diam, ac posuere nibh. Pellentesque mauris augue, sollicitudin porttitor massa non, ultrices aliquet risus. Donec at porttitor metus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur risus enim, bibendum eget ante ac, feugiat efficitur orci.
+
+Slide 2
+Pellentesque fringilla a ante non fermentum. Nunc enim felis, ullamcorper a bibendum eget, blandit id libero. Maecenas vitae elit arcu. Donec vehicula hendrerit mi hendrerit malesuada. Sed sapien tortor, posuere tincidunt ornare vitae, molestie ac lacus. Phasellus a massa enim. Ut erat purus, dictum at vulputate ut, porttitor sit amet sapien.
+
+Slide 3
+Quisque in enim justo. In sit amet dui cursus, pharetra est vel, congue mauris. Curabitur imperdiet felis ut augue feugiat sollicitudin. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec eu erat consectetur massa scelerisque eleifend et eu ante.
+
+Slide 4
+Phasellus eu eleifend diam. Sed at tellus urna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin non dui sit amet lectus ultricies egestas ac vitae velit. In non turpis odio.

@@ -1,0 +1,80 @@
+{
+  "name": "teleprompter",
+  "version": "1.0.0",
+  "description": "A web-based teleprompter with vertically scrolling text",
+  "main": "index.js",
+  "build": {
+    "appId": "work.pingleware.teleprompter",
+    "productName": "Teleprompter",
+    "copyright": "Copyright © 2020 ${author}",
+    "win": {
+      "icon": "assets/teleprompter.ico"
+    },
+    "linux": {
+      "target": "deb",
+      "category": "Office",
+      "icon": "assets/teleprompter.png"
+    },
+    "mac": {
+      "icon": "assets/teleprompter.icns",
+      "category": "public.app-category.business"
+    },
+    "dmg": {
+      "title": "${productName}_${version}",
+      "icon": "assets/teleprompter.icns",
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "files": [],
+    "extraFiles": []
+  },
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pingleware/teleprompter.git"
+  },
+  "keywords": [
+    "teleprompter",
+    "presspage",
+    "entertainment",
+    "pingleware"
+  ],
+  "author": {
+    "name": "PressPage Entertainment Inc DBA PINGLEWARE",
+    "email": "presspage.entertainment@gmail.com",
+    "url": "https://pingleware.work"
+  },
+  "contributors": [
+    {
+      "name": "Patrick Ingle",
+      "email": "me@patrickingle.info",
+      "url": "https://patrickingle.info"
+    }
+  ],
+  "license": "AAL",
+  "bugs": {
+    "url": "https://github.com/pingleware/teleprompter/issues"
+  },
+  "homepage": "https://github.com/pingleware/teleprompter#readme",
+  "devDependencies": {
+    "electron": "^12.0.2",
+    "electron-builder": "^22.10.5"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
+  }
+}
